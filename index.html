@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مدارس العصر – ألعاب تعليمية</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light;
+  --blue: #2f83c5;
+  --blue-deep: #175c91;
+  --blue-soft: #eaf5fd;
+  --blue-pale: #f5faff;
+  --ink: #20394c;
+  --muted: #647d90;
+  --line: #d7e8f4;
+  --green: #23885c;
+  --red: #b74545;
+  --gold: #f4c664;
+  --shadow: 0 12px 32px rgba(37, 91, 128, .09);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  min-width: 320px;
+  background:
+    radial-gradient(ellipse at 92% 9%, rgba(196, 228, 249, .45), transparent 28rem),
+    #f6faff;
+  color: var(--ink);
+  font: 18px/1.7 Cairo, Tahoma, sans-serif;
+}
+button, input { font: inherit; }
+button { color: inherit; cursor: pointer; }
+button:focus-visible, input:focus-visible {
+  outline: 4px solid var(--gold);
+  outline-offset: 3px;
+}
+.topbar {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 14px max(24px, calc((100% - 1180px) / 2));
+  background: rgba(255, 255, 255, .96);
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 4px 18px rgba(30, 78, 111, .04);
+}
+.brand-mark {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: 0 0 62px;
+  width: 62px;
+  height: 62px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--blue-soft);
+}
+.brand-mark img { width: 100%; height: 100%; object-fit: contain; }
+.brand-fallback { position: absolute; inset: 0; display: grid; place-items: center; color: var(--blue-deep); font-size: 30px; font-weight: 800; pointer-events: none; }
+.brand-fallback[hidden] { display: none; }
+.brand-copy { flex: 1; min-width: 175px; }
+.brand-copy h1 { margin: 0; color: var(--blue-deep); font-size: 25px; line-height: 1.3; font-weight: 800; }
+.brand-copy p { margin: 3px 0 0; color: var(--muted); font-size: 15px; }
+.nm { display: grid; gap: 3px; min-width: 220px; color: var(--muted); font-size: 14px; font-weight: 700; }
+.nm input {
+  width: 100%;
+  min-height: 46px;
+  padding: 8px 13px;
+  color: var(--ink);
+  border: 1px solid #c8ddeb;
+  border-radius: 12px;
+  background: #fbfdff;
+}
+.nm input::placeholder { color: #8da1b0; }
+main { width: min(1120px, 100%); min-height: 70vh; margin: 0 auto; padding: 28px 24px 56px; }
+.welcome {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  padding: clamp(24px, 5vw, 46px);
+  border: 1px solid #d5e9f7;
+  border-radius: 26px;
+  background: linear-gradient(115deg, #fff 25%, #f0f8fe 100%);
+  box-shadow: var(--shadow);
+}
+.welcome::after {
+  position: absolute;
+  left: -38px;
+  bottom: -96px;
+  width: 220px;
+  height: 220px;
+  border: 28px solid rgba(115, 181, 224, .12);
+  border-radius: 50%;
+  content: "";
+}
+.eyebrow { margin: 0 0 7px; color: var(--blue); font-size: 14px; font-weight: 800; letter-spacing: .03em; }
+.welcome h2 { margin: 0; color: #183e5b; font-size: clamp(26px, 4vw, 38px); line-height: 1.35; font-weight: 800; }
+.welcome p:not(.eyebrow) { max-width: 620px; margin: 10px 0 0; color: var(--muted); font-size: 17px; }
+.welcome-art {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 96px;
+  height: 96px;
+  border: 1px solid #d5e9f7;
+  border-radius: 28px;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(37, 91, 128, .08);
+  font-size: 49px;
+}
+.section { margin-top: 35px; }
+.sec {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin: 0 0 15px;
+  color: #23465f;
+  font-size: 22px;
+  font-weight: 800;
+}
+.sec::before { width: 5px; height: 26px; border-radius: 4px; background: var(--blue); content: ""; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
+.tile {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  min-height: 105px;
+  padding: 18px;
+  text-align: right;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 5px 16px rgba(37, 91, 128, .035);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.tile:hover { transform: translateY(-3px); border-color: #9dc9e7; box-shadow: var(--shadow); }
+.tile-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 58px;
+  width: 58px;
+  height: 58px;
+  border-radius: 17px;
+  background: var(--blue-soft);
+  font-size: 31px;
+}
+.tile-copy { display: grid; gap: 2px; }
+.tile-copy strong { color: #274c67; font-size: 17px; }
+.tile-copy small { color: var(--muted); font-size: 13px; font-weight: 500; }
+.bar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 4px 0 17px; }
+.bar h2 { flex: 1; margin: 0; color: var(--blue-deep); font-size: 25px; }
+.bk, .nxt {
+  min-height: 48px;
+  padding: 9px 18px;
+  color: #fff;
+  border: 0;
+  border-radius: 12px;
+  background: var(--blue-deep);
+  font-weight: 800;
+  transition: background .16s ease, transform .16s ease;
+}
+.bk:hover, .nxt:hover { transform: translateY(-1px); background: #124d7b; }
+.cnt { padding: 5px 13px; color: var(--blue-deep); border: 1px solid var(--line); border-radius: 20px; background: #fff; font-size: 15px; font-weight: 800; }
+.card { padding: clamp(18px, 4vw, 30px); border: 1px solid var(--line); border-radius: 22px; background: #fff; box-shadow: var(--shadow); }
+.q { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; text-align: center; }
+.q p { margin: 5px 0; color: #24465f; font-size: clamp(22px, 3.5vw, 29px); font-weight: 800; }
+.sp {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid #cfe3f1;
+  border-radius: 15px;
+  background: var(--blue-pale);
+  font-size: 23px;
+}
+.big { font-size: 76px; line-height: 1.15; }
+.big img, .big svg { max-width: 100%; max-height: 145px; }
+.opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 12px; margin-top: 20px; }
+.opt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  min-height: 78px;
+  padding: 13px;
+  text-align: center;
+  border: 2px solid #d7e9f5;
+  border-radius: 16px;
+  background: #f7fbfe;
+  font-size: 19px;
+  font-weight: 700;
+  transition: border-color .16s ease, background .16s ease, transform .16s ease;
+}
+.opt:hover:not(:disabled) { transform: translateY(-2px); border-color: #8ebfe0; background: #edf7fd; }
+.opt:disabled { cursor: default; }
+.opt.ok { border-color: #83c7a6; background: #eaf7f0; }
+.opt.no { border-color: #e1a3a3; background: #fff0ef; color: #805252; }
+.opt img, .opt svg { max-width: 130px; max-height: 76px; }
+.em { font-size: 40px; }
+.pic { max-width: 130px; max-height: 82px; object-fit: contain; }
+#msg { min-height: 32px; margin: 12px 0 0; color: var(--blue-deep); text-align: center; font-weight: 700; }
+.strip { display: flex; gap: 8px; flex-wrap: wrap; min-height: 56px; margin: 14px 0; padding: 9px; border: 2px dashed #bfd9eb; border-radius: 14px; background: var(--blue-pale); }
+.chip { display: inline-block; padding: 5px 12px; border: 1px solid #c9e0ef; border-radius: 10px; background: #fff; font-weight: 700; }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 14px; }
+.zone { min-height: 150px; padding: 14px; text-align: center; border: 1px solid var(--line); border-radius: 17px; background: var(--blue-pale); }
+.pzl { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; max-width: 440px; margin: 16px auto; direction: ltr; }
+.pc { overflow: hidden; padding: 0; border: 3px solid #d1e4f1; border-radius: 10px; background: #fff; }
+.pc.sel { border-color: #d99a1c; box-shadow: 0 0 0 3px #f7e8bd; }
+.pc svg { display: block; width: 100%; }
+.flagbox { max-width: 480px; margin: 16px auto; direction: ltr; }
+.flagbox [data-r] { cursor: pointer; }
+.pal { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin: 18px 0; }
+.sw { width: 46px; height: 46px; border: 3px solid #fff; border-radius: 50%; box-shadow: 0 0 0 2px #cbdce8; }
+.sw.on { box-shadow: 0 0 0 4px #d99a1c; }
+.mas { display: block; margin: 12px auto; border: 0; border-radius: 22px; background: var(--blue-pale); }
+.mas svg { width: 165px; }
+.bub { max-width: 470px; margin: 12px auto; padding: 13px 18px; text-align: center; border: 1px solid #cfe3f1; border-radius: 16px; background: var(--blue-soft); font-size: 21px; font-weight: 700; }
+table { width: 100%; margin: 14px 0; border-collapse: collapse; }
+td, th { padding: 12px; text-align: center; border: 1px solid var(--line); }
+th { background: var(--blue-soft); }
+.notice { margin: 14px 0 0; padding: 13px 16px; border: 1px solid #d4e6f3; border-radius: 13px; background: #f4f9fd; color: #45677e; }
+#ov { position: fixed; inset: 0; z-index: 9; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(20, 46, 65, .56); }
+#ov[hidden] { display: none; }
+.ovc { width: min(460px, 100%); padding: 22px; text-align: center; border: 1px solid #d4e7f4; border-radius: 24px; background: #fff; box-shadow: 0 22px 65px rgba(10, 35, 54, .23); animation: appear .24s ease-out; }
+.ovc svg { width: 138px; }
+.ovc .bub { font-size: 23px; }
+@keyframes appear { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+footer { padding: 18px 24px; text-align: center; color: var(--muted); font-size: 14px; }
+@media (max-width: 680px) {
+  .topbar { flex-wrap: wrap; gap: 11px; padding: 12px 18px; }
+  .brand-mark { flex-basis: 52px; width: 52px; height: 52px; }
+  .brand-copy h1 { font-size: 21px; }
+  .brand-copy p { font-size: 13px; }
+  .nm { flex: 1 0 100%; }
+  main { padding: 20px 16px 40px; }
+  .welcome { grid-template-columns: minmax(0, 1fr) 64px; padding: 23px 18px; border-radius: 20px; }
+  .welcome-art { width: 60px; height: 60px; border-radius: 18px; font-size: 33px; }
+  .welcome p:not(.eyebrow) { font-size: 15px; }
+  .grid { grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 10px; }
+  .tile { min-height: 92px; gap: 10px; padding: 12px; }
+  .tile-icon { flex-basis: 48px; width: 48px; height: 48px; border-radius: 14px; font-size: 25px; }
+  .tile-copy strong { font-size: 15px; }
+  .tile-copy small { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand-mark">
+    <img src="WhatsApp Image 2026-10-29 at 3.51.22 PM (1).jpeg" alt="شعار مدارس العصر" onload="this.nextElementSibling.hidden=true" onerror="this.hidden=true">
+    <span class="brand-fallback" aria-hidden="true">ع</span>
+  </div>
+  <div class="brand-copy"><h1>مدارس العصر</h1><p>نتعلّم ونلعب مع المعلمة هبة عبد اللطيف</p></div>
+  <label class="nm">اسم الطالب أو الطالبة (اختياري)<input id="nm" type="text" autocomplete="off" maxlength="60" placeholder="اكتب اسمك هنا"></label>
+</header>
+<main id="stage" tabindex="-1"></main>
+<div id="ov" hidden></div>
+<footer>مدارس العصر – المعلمة هبة عبد اللطيف</footer>
+
+<script>
+/* ====== الإعدادات: عدّل المسارات هنا ====== */
+const IMG={king:'images/king.png',prince:'images/prince.png',flag:'images/flag.png',swords:'images/swords.png',palm:'images/palm.png',
+riyadh:'images/riyadh.png',jeddah:'images/jeddah.png',dammam:'images/dammam.png',heart:'images/heart.png',quran:'images/quran.png',
+school:'images/school.png',house:'images/house.png',uniform:'images/uniform.png'};
+const AUD={anthem:''}; /* مثال: 'audio/anthem.mp3' */
+/* أضف هنا أسطر النشيد التي ستُستخدم في لعبة التكملة، سطرًا لكل عنصر. */
+const ANTHEM=[];
+const ST=['أحمد هزازي','عبد الله الفيفي','محمد البلوي','معاذ هزازي','فارس العطوي','عبد العزيز القبلي'];
+/* ======================================== */
+
+const $=s=>document.querySelector(s),stage=$('#stage');let name='';
+$('#nm').oninput=e=>name=e.target.value.trim();
+const DAYS=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+const PRX=['ما شاء الله عليك، كمّل كذا!','أنت بطل وربي!','يعطيك العافية!','فخورين فيك!','حلو منك، استمر!'];
+const shuf=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const O=(t,e,k)=>({t,e,k});
+const fb=i=>{i.replaceWith(document.createTextNode(i.dataset.e||'📷'))};
+const pic=(k,e)=>k&&IMG[k]?`<img class="pic" src="${IMG[k]}" alt="" data-e="${e||''}" onerror="fb(this)">`:(e?`<span class="em">${e}</span>`:'');
+const escapeHTML=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const say=t=>{
+  if(!('speechSynthesis' in window)||typeof SpeechSynthesisUtterance==='undefined'){msg('ميزة القراءة الصوتية غير متاحة في هذا المتصفح.');return}
+  try{
+    speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='ar-SA';u.rate=.85;
+    u.onerror=()=>msg('تعذّرت القراءة الصوتية. يمكنك متابعة النشاط بالقراءة.');
+    speechSynthesis.speak(u);
+  }catch(e){msg('تعذّرت القراءة الصوتية. يمكنك متابعة النشاط بالقراءة.')}
+};
+const msg=t=>{const m=$('#msg');if(m)m.textContent=t};
+const head=(t,s)=>`<div class="bar"><button class="bk" onclick="home()">🏠 القائمة</button><h2>${t}</h2>${s||''}</div>`;
+
+const BOY=`<svg viewBox="0 0 120 150" role="img" aria-label="شخصية ولد سعودي">
+<rect x="30" y="86" width="60" height="58" rx="16" fill="#fff" stroke="#1769AA" stroke-width="3"/>
+<circle cx="60" cy="55" r="27" fill="#F2C9A0" stroke="#1769AA" stroke-width="3"/>
+<path d="M28 58Q26 18 60 18Q94 18 92 58L92 70Q86 44 60 44Q34 44 28 70Z" fill="#fff" stroke="#1769AA" stroke-width="3"/>
+<path d="M33 34Q60 20 87 34" fill="none" stroke="#222" stroke-width="6" stroke-linecap="round"/>
+<circle cx="50" cy="58" r="3.5" fill="#222"/><circle cx="70" cy="58" r="3.5" fill="#222"/>
+<path d="M50 70Q60 79 70 70" fill="none" stroke="#B3401F" stroke-width="3.5" stroke-linecap="round"/>
+<path d="M92 100L108 78" stroke="#F2C9A0" stroke-width="10" stroke-linecap="round"/></svg>`;
+
+function ok(cb,line){
+  const w=name?`مبروووك يا ${escapeHTML(name)}!`:'مبروك.. شاطر!';
+  $('#ov').innerHTML=`<div class="ovc" role="dialog" aria-modal="true" aria-live="polite">${BOY}<div class="bub"><b>${w}</b><br>${line||PRX[Math.floor(Math.random()*PRX.length)]}</div><button class="nxt" id="nx">التالي ◀</button></div>`;
+  $('#ov').hidden=false;$('#nx').focus();
+  $('#nx').onclick=()=>{$('#ov').hidden=true;cb&&cb()};
+}
+const fin=t=>ok(home,`خلّصت لعبة «${t}» كاملة! أنت نجم ⭐`);
+
+function quiz(t,qs,done){let i=0;(function nx(){
+  if(i>=qs.length)return done?done():home();
+  const q=qs[i],os=shuf(q.o.map((o,j)=>({...o,r:j===q.a})));
+  stage.innerHTML=head(t,`<span class="cnt">${i+1} / ${qs.length}</span>`)+
+  `<div class="card"><div class="q">${q.p?`<div class="big">${q.p.h||pic(q.p[0],q.p[1])}</div>`:''}<p>${q.q}</p><button class="sp" aria-label="اسمع السؤال" data-s="${q.q}" onclick="say(this.dataset.s)">🔊</button></div>
+  <div class="opts">${os.map((o,j)=>`<button class="opt" data-j="${j}">${o.h||pic(o.k,o.e)}<b>${o.t||''}</b></button>`).join('')}</div><p id="msg" role="status"></p></div>`;
+  stage.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{const o=os[b.dataset.j];
+    if(o.r){b.classList.add('ok');ok(()=>{i++;if(i===qs.length&&!done)home();else nx()})}else{b.classList.add('no');b.disabled=true;msg('قريب! جرّب مرة ثانية 💪')}}); 
+})()}
+
+function seq(t,items,done,hint){let p=0,used=[];const L=shuf(items);
+  const dr=()=>{stage.innerHTML=head(t)+`<div class="card"><p class="q"><b>${hint}</b></p><div class="strip" aria-label="ترتيبك">${items.slice(0,p).map(x=>`<span class="chip">${x.t}</span>`).join('')}</div>
+  <div class="opts">${L.map((x,j)=>`<button class="opt" data-j="${j}" ${used.includes(j)?'disabled':''}><span class="em">${x.e||''}</span><b>${x.t}</b></button>`).join('')}</div><p id="msg" role="status"></p></div>`;
+  stage.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{const j=+b.dataset.j;
+    if(L[j].t===items[p].t){used.push(j);p++;if(p===items.length){dr();done?done():fin(t)}else dr()}else{b.classList.add('no');msg('مو هذا الحين، جرّب غيره 💪')}})};
+  dr()}
+
+const FL=(vb,blank)=>`<svg viewBox="${vb||'0 0 300 200'}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="علم السعودية">
+<rect data-r width="300" height="200" style="fill:${blank?'#fff':'#006C35'}" ${blank?'stroke="#1769AA" stroke-width="3"':''}/>
+<text data-r x="150" y="88" text-anchor="middle" font-size="25" font-weight="800" font-family="Cairo,Tahoma" style="fill:${blank?'#bcc7d0':'#fff'}">لا إله إلا الله محمد رسول الله</text>
+<g data-r style="fill:${blank?'#bcc7d0':'#fff'}"><polygon points="55,142 68,135 215,135 215,149 68,149"/><rect x="215" y="124" width="9" height="36" rx="3"/><rect x="224" y="138" width="26" height="8" rx="4"/></g></svg>`;
+const stripes=(a,b,c)=>`<svg viewBox="0 0 90 60" width="120"><rect width="90" height="20" fill="${a}"/><rect y="20" width="90" height="20" fill="${b}"/><rect y="40" width="90" height="20" fill="${c}"/></svg>`;
+const FS=FL().replace('role="img" aria-label="علم السعودية"','width="130"');
+
+function pz(){let o=[0,1,2,3],s=-1;do{o=shuf(o)}while(o.every((v,i)=>v===i));
+  const VB=['0 0 150 100','150 0 150 100','0 100 150 100','150 100 150 100'];
+  const dr=()=>{stage.innerHTML=head('ركّب العلم')+`<div class="card"><p class="q"><b>اضغط على قطعتين عشان تبدّل مكانهم، لين يكتمل علم السعودية</b></p><div class="pzl">${o.map((v,i)=>`<button class="pc ${s===i?'sel':''}" data-i="${i}" aria-label="قطعة ${i+1}">${FL(VB[v])}</button>`).join('')}</div></div>`;
+    stage.querySelectorAll('.pc').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;
+      if(s<0)s=i;else{[o[s],o[i]]=[o[i],o[s]];s=-1}
+      dr();if(o.every((v,k)=>v===k))fin('ركّب العلم')})};dr()}
+
+function col(){let c='#006C35';const P=['#006C35','#FFFFFF','#FFD93D','#E53935','#1E88E5','#212121','#FF9800','#8E24AA'];
+  stage.innerHTML=head('لوّن العلم')+`<div class="card"><p class="q"><b>اختر لون، وبعدين اضغط على الجزء اللي تبغى تلوّنه</b></p><div class="pal">${P.map(x=>`<button class="sw ${x===c?'on':''}" style="background:${x}" data-c="${x}" aria-label="لون"></button>`).join('')}</div><div class="flagbox">${FL('0 0 300 200',1)}</div><div style="text-align:center"><button class="nxt" id="dn">خلّصت التلوين ✅</button></div></div>`;
+  stage.querySelectorAll('.sw').forEach(b=>b.onclick=()=>{c=b.dataset.c;stage.querySelectorAll('.sw').forEach(x=>x.classList.toggle('on',x===b))});
+  stage.querySelectorAll('[data-r]').forEach(e=>{
+    e.setAttribute('role','button');e.setAttribute('tabindex','0');e.setAttribute('aria-label','جزء من العلم، اضغط لتلوينه');
+    const paint=()=>e.style.fill=c;
+    e.onclick=paint;e.onkeydown=ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();paint()}}
+  });
+  $('#dn').onclick=()=>fin('لوّن العلم')}
+
+function af(){
+  const lines=ANTHEM.map(line=>line.trim()).filter(Boolean);
+  if(lines.length<3){
+    stage.innerHTML=head('كمّل النشيد')+`<div class="card"><div class="q"><span class="em">🎵</span><p>لعبة تكملة النشيد جاهزة للإعداد</p></div>
+    <p class="notice">أضيفي ٣ أسطر أو أكثر في قائمة <b>ANTHEM</b> أعلى الملف، كل سطر بين علامتي اقتباس. ولإضافة تسجيل صوتي، اكتبي مساره في <b>AUD.anthem</b>. ما أُضيفت أي كلمات افتراضية حتى تضعي المحتوى المعتمد بنفسك.</p>
+    ${AUD.anthem?'<div style="text-align:center;margin-top:16px"><button class="nxt" id="listen">🔊 استمع للتسجيل</button></div>':''}
+    <p id="msg" role="status"></p></div>`;
+    if(AUD.anthem)$('#listen').onclick=()=>new Audio(AUD.anthem).play().catch(()=>msg('تعذّر تشغيل التسجيل. تأكدي من مسار الملف الصوتي.'));
+    return;
+  }
+  const qs=[];for(let i=1;i<lines.length;i++){const w=shuf(lines.filter((_,j)=>j!==i&&j!==i-1)).slice(0,2);
+  qs.push({q:'كمّل النشيد: '+lines[i-1],o:[{t:lines[i]},...w.map(t=>({t}))],a:0})}
+  quiz('كمّل النشيد',qs)}
+
+function al(){stage.innerHTML=head('أنا سامعك')+`<div class="card" style="text-align:center"><p class="q"><b>اضغط على صاحبك وقول النشيد الوطني!</b></p><button class="mas" id="mb" aria-label="اضغط على الشخصية">${BOY}</button><div class="bub" id="bb" hidden>أنا سامعك.. يلا قول النشيد! 🎤</div>
+  ${AUD.anthem?`<button class="opt" id="pl" style="margin:10px auto">🔊 اسمع النشيد</button>`:''}<button class="nxt" id="en" hidden>انتهيت ✅</button></div>`;
+  $('#mb').onclick=()=>{$('#bb').hidden=false;$('#en').hidden=false;say('أنا سامعك، يلا قول النشيد')};
+  if(AUD.anthem)$('#pl').onclick=()=>new Audio(AUD.anthem).play().catch(()=>msg('تعذّر تشغيل التسجيل. تأكدي من مسار الملف الصوتي.'));
+  $('#en').onclick=()=>ok(home,'ما شاء الله! قلت النشيد الوطني يا بطل 💚')}
+
+const today=new Date(),fd=d=>`${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`,off=n=>new Date(today.getFullYear(),today.getMonth(),today.getDate()+n);
+
+function att(){let ph=0,P=[],A=[],saveWarning='';
+  const dr=()=>{const left=ST.filter(n=>!P.includes(n)&&!A.includes(n));
+    if(ph===1&&!left.length)return board();
+    stage.innerHTML=head('لوحة الحضور')+`<div class="card"><p class="q"><b>${ph?'الباقين غايبين.. اضغط على اسم الغايب عشان يروح البيت':'اضغط على اسم كل صديق حاضر عشان يدخل المدرسة'}</b></p>
+    <div class="two"><div class="zone"><div class="big">${pic('school','🏫')}</div><p><b>المدرسة</b></p>${P.map(n=>`<span class="chip">${n}</span> `).join('')}</div>
+    ${ph?`<div class="zone"><div class="big">${pic('house','🏠')}</div><p><b>البيت</b></p>${A.map(n=>`<span class="chip">${n}</span> `).join('')}</div>`:''}</div>
+    <div class="opts">${left.map(n=>`<button class="opt" data-n="${n}"><b>${n}</b></button>`).join('')}</div>
+    ${ph?'':`<div style="text-align:center;margin-top:14px"><button class="nxt" id="go">خلّصت الحاضرين ◀</button></div>`}</div>`;
+    stage.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{(ph?A:P).push(b.dataset.n);if(!ph&&P.length===ST.length)ph=1;dr()});
+    if(!ph)$('#go').onclick=()=>{ph=1;dr()}};
+  const board=()=>{try{localStorage.setItem('att-'+fd(today),JSON.stringify({P,A}))}catch(e){saveWarning='تعذّر حفظ لوحة الحضور على هذا الجهاز، لكن تقدرون تكملون النشاط.'}
+    stage.innerHTML=head('لوحة الغياب')+`<div class="card"><table><tr><th colspan="2">${DAYS[today.getDay()]} – ${fd(today)}</th></tr><tr><th>✅ الحاضرون (${P.length})</th><th>❌ الغايبون (${A.length})</th></tr>
+    <tr><td>${P.join('<br>')||'—'}</td><td>${A.join('<br>')||'—'}</td></tr></table>${saveWarning?`<p class="notice" role="status">${saveWarning}</p>`:''}<div style="text-align:center"><button class="nxt" id="go">التالي ◀</button></div></div>`;
+    $('#go').onclick=()=>{const n=P.length,s=[...new Set([n,n+1,Math.max(0,n-1),n+2])].slice(0,3);if(!s.includes(n))s[0]=n;
+      quiz('لوحة الحضور',[{q:'كم عدد أصدقائك الحاضرين اليوم؟',o:s.map(x=>({t:String(x),e:'🧒'})),a:s.indexOf(n)}])}};
+  dr()}
+
+const dd=[off(0),off(1),off(-1)];
+const G=[
+{t:'كمّل النشيد',e:'🎵',f:af},
+{t:'أنا سامعك',e:'🎤',f:al},
+{t:'ما اسم وطني؟',e:'🇸🇦',f:()=>quiz('ما اسم وطني؟',[{q:'ما اسم وطني؟',p:['flag','🕌'],o:[O('المملكة العربية السعودية','🕌'),O('جمهورية مصر','🌍'),O('دولة الكويت','🌍')],a:0}])},
+{t:'اختر العلم',e:'🏳️',f:()=>quiz('اختر العلم',[
+ {q:'أي علم هو علم السعودية؟',o:[{h:FS},{h:stripes('#CE1126','#fff','#000')},{h:stripes('#0055A4','#fff','#EF4135')}],a:0},
+ {q:'دوّر على علم السعودية',o:[{h:stripes('#000','#EF4135','#FFD700')},{h:FS},{h:stripes('#FF9933','#fff','#138808')}],a:1}])},
+{t:'ركّب العلم',e:'🧩',f:pz},
+{t:'لوّن العلم',e:'🎨',f:col},
+{t:'قادة بلادي',e:'👑',f:()=>quiz('قادة بلادي',[
+ {q:'ما اسم ملكنا؟',p:['king','👑'],o:[O('الملك سلمان بن عبدالعزيز','👑','king'),O('الأمير أحمد بن علي','👤'),O('الأستاذ خالد بن سعد','👤')],a:0},
+ {q:'ما اسم ولي العهد؟',p:['prince','🤴'],o:[O('محمد بن سلمان','🤴','prince'),O('فيصل بن ناصر','👤'),O('سعود بن عبدالله','👤')],a:0},
+ {q:'ما لون علم بلادي؟',p:['flag','🟩'],o:[O('أخضر','🟩'),O('أحمر','🟥'),O('أزرق','🟦')],a:0},
+ {q:'ما هي عاصمة المملكة؟',p:['riyadh','🏙️'],o:[O('الرياض','🏙️','riyadh'),O('جدة','🌊','jeddah'),O('الدمام','🏭','dammam')],a:0}])},
+{t:'كلمة التوحيد',e:'☝️',f:()=>quiz('كلمة التوحيد',[
+ {q:'ماذا كُتب على العلم؟',p:['flag','🟩'],o:[O('لا إله إلا الله محمد رسول الله','✨'),O('أنا أحب وطني','❤️'),O('صباح الخير','🌞')],a:0}],
+ ()=>seq('كلمة التوحيد',['لا','إله','إلا','الله','محمد','رسول','الله'].map(t=>({t})),()=>fin('كلمة التوحيد'),'رتّب الكلمات بالترتيب الصحيح عشان تكتمل كلمة التوحيد'))},
+{t:'رموز وديني',e:'🌴',f:()=>quiz('رموز وديني',[
+ {q:'ماذا يدل السيفان؟',p:['swords','⚔️'],o:[O('القوة','💪'),O('الجمال','🌸'),O('السرعة','🏃')],a:0},
+ {q:'ماذا تدل النخلة؟',p:['palm','🌴'],o:[O('الرخاء والخير','🌴'),O('الخوف','😨'),O('الحزن','😢')],a:0},
+ {q:'الوطن هو المكان الذي نعيش فيه.. وطني وطن؟',o:[O('الأمن والأمان','🛡️'),O('الخوف','😨'),O('الحزن','😢')],a:0},
+ {q:'أنا أحب...',p:['heart','💚'],o:[O('وطني','💚','heart'),O('الكسل','😴'),O('الزعل','😠')],a:0},
+ {q:'من ربنا؟',o:[O('الله','🤲'),O('القمر','🌙'),O('الشمس','☀️')],a:0},
+ {q:'ما ديننا؟',o:[O('الإسلام','🕌'),O('لا شيء','❓'),O('غير ذلك','❓')],a:0},
+ {q:'من نبينا؟',o:[O('محمد ﷺ','🌹'),O('أحمد المعلم','👤'),O('فارس','👤')],a:0},
+ {q:'ما الكتاب الذي أُنزل علينا؟',p:['quran','📖'],o:[O('القرآن الكريم','📖','quran'),O('كتاب القصص','📕'),O('كتاب التلوين','🖍️')],a:0}])},
+{t:'أيام الأسبوع',e:'📅',f:()=>quiz('أيام الأسبوع',[
+ {q:'كم عدد أيام الأسبوع؟',o:[O('٧','7️⃣'),O('٥','5️⃣'),O('٦','6️⃣')],a:0},
+ {q:'ما هو اليوم؟',o:shuf([0,1,2,3,4,5,6].filter(x=>x!==today.getDay())).slice(0,2).map(x=>O(DAYS[x],'📆')).concat([O(DAYS[today.getDay()],'📆')]).reverse(),a:2},
+ {q:'كم تاريخ اليوم؟',o:[O(fd(dd[0]),'🗓️'),O(fd(dd[1]),'🗓️'),O(fd(dd[2]),'🗓️')],a:0}],
+ ()=>seq('أيام الأسبوع',DAYS.map(t=>({t,e:'📆'})),()=>fin('أيام الأسبوع'),'رتّب أيام الأسبوع من الأحد'))},
+{t:'لوحة الحضور',e:'🏫',f:att},
+{t:'قوانين الفصل',e:'📋',f:()=>quiz('قوانين الفصل',[
+ {q:'وش أسوي لما المعلمة تتكلم؟',o:[O('أسمع بهدوء','👂'),O('أصارخ','📢'),O('أقوم من مكاني','🚶')],a:0},
+ {q:'وش أسوي إذا أبغى أتكلم؟',o:[O('أرفع يدي','✋'),O('أصارخ','📢'),O('أسكت وأزعل','😠')],a:0},
+ {q:'كيف أتعامل مع أصدقائي؟',o:[O('بلطف واحترام','🤝'),O('أضربهم','👊'),O('أتجاهلهم','🙈')],a:0},
+ {q:'وين أرمي الأوراق؟',o:[O('في سلة المهملات','🗑️'),O('على الأرض','📄'),O('في الشنطة','🎒')],a:0},
+ {q:'كيف أمشي في الفصل؟',o:[O('بهدوء','🚶'),O('أركض','🏃'),O('أقفز','🤸')],a:0},
+ {q:'وش أقول للمعلمة أول ما أشوفها؟',o:[O('السلام عليكم، صباح الخير','🌞'),O('ولا شيء','🤐'),O('أهرب','🏃')],a:0}])},
+{t:'يوم جديد',e:'🌅',f:()=>seq('وش أسوي بالصباح؟',[['استيقظ من النوم','🛏️'],['أذهب إلى الحمام','🚽'],['أغسل وجهي','🧼'],['أغسل يدي','🙌'],['أفرش أسناني','🪥'],['ألبس ملابس المدرسة','👔'],['آكل فطوري','🍳'],['أذهب إلى المدرسة','🚌']].map(([t,e])=>({t,e})),
+ ()=>quiz('ما اسم مدرستي؟',[{q:'ما اسم مدرستي؟',p:['school','🏫'],o:[O('مدارس العصر','🏫','school'),O('مدرسة النجوم','⭐'),O('مدرسة الأمل','🌈')],a:0}]),'رتّب خطوات الصباح من أول ما تصحى')}
+];
+const SECS=[{t:'القسم الأول: وطني',a:0,b:9},{t:'القسم الثاني: مدرستي',a:9,b:G.length}];
+const GD=[
+  'اختاري السطر الصحيح لإكمال النشيد','قولي النشيد بصوتك وبراحتك','نتعرّف على وطننا الحبيب',
+  'اختاري العلم السعودي من بين الأعلام','بدّلي القطع حتى يكتمل العلم','اختاري الألوان ولوّني العلم',
+  'نتعرّف على قادة المملكة ومدينتها','رتّبي كلمات الشهادة كما تعلّمنا','نتعرّف على رموز الوطن ومعلومات دينية',
+  'نتعرّف على أيام الأسبوع والتاريخ','نحدّد الحضور والغياب معًا','نتعلّم آداب الفصل بطريقة ممتعة',
+  'رتّبي خطوات الاستعداد للمدرسة'
+];
+function home(){
+  stage.innerHTML=`<section class="welcome"><div><p class="eyebrow">مساحة تعلّم تفاعلية</p><h2>يا هلا فيك${name?` يا ${escapeHTML(name)}`:''} 👋</h2>
+    <p>ألعاب وأنشطة بسيطة تساعدنا نتعلّم عن وطننا وأيامنا ومدرستنا. اختَر لعبة وابدأ على راحتك.</p></div><div class="welcome-art" aria-hidden="true">🌟</div></section>`+
+    SECS.map(s=>`<section class="section"><h2 class="sec">${s.t}</h2><div class="grid">${G.slice(s.a,s.b).map((g,i)=>`<button class="tile" onclick="G[${s.a+i}].f()"><span class="tile-icon" aria-hidden="true">${g.e}</span><span class="tile-copy"><strong>${g.t}</strong><small>${GD[s.a+i]}</small></span></button>`).join('')}</div></section>`).join('');
+  window.scrollTo(0,0);
+}
+home();
+</script>
+</body>
+</html>
